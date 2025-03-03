@@ -74,6 +74,12 @@ def test_obfuscate_parameter():
     assert obfuscate_parameter("token_for_test", "string_to_be_obfuscated") == "********"
     assert obfuscate_parameter("token", "") == ""
 
+    # *key*
+    assert obfuscate_parameter("key", "string_to_be_obfuscated") == "********"
+    assert obfuscate_parameter("sample_key", "string_to_be_obfuscated") == "********"
+    assert obfuscate_parameter("keyword", "string_not_to_be_obfuscated") == "string_not_to_be_obfuscated"
+    assert obfuscate_parameter("key", "") == ""
+
 
 def test_obfuscate_parameter_custom_pattern():
     # *secret*

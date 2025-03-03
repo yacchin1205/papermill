@@ -11,15 +11,19 @@ logger = logging.getLogger('papermill.utils')
 
 
 SENSITIVE_PARAMETER_PATTERNS = [
-    r"(?i).*password",
-    r"(?i).*passwd",
-    r"(?i).*pwd",
-    r"(?i).*pass",
-    r"(?i).*token",
-    r"(?i).*secret",
-    r"(?i).*authorization",
-    r"(?i).*auth",
-    r"(?i).*key",
+    r"(?i)pass(word|wd)",
+    r"(?i)pwd$",
+    # A short keyword that may match many keywords unintentionally
+    # is only targeted when placed at the end of the string.
+    r"(?i)pass$",
+    r"(?i)token",
+    r"(?i)secret",
+    r"(?i)authorization",
+    r"(?i)auth$",
+    r"(?i)key$",
+    r"(?i)access_key",
+    r"(?i)secret_key",
+    r"(?i)private_key",
 ]
 
 
@@ -237,7 +241,7 @@ def obfuscate_parameter(
     if not value:
         # Return empty string if value is empty to show that the parameter is empty
         return value
-    if any(re.match(pattern, name) for pattern in name_patterns):
+    if any(re.search(pattern, name) for pattern in name_patterns):
         return obfuscated_value
     return value
 
